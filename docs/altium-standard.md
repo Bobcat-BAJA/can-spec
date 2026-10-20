@@ -58,7 +58,7 @@ Picked by DigiKey's Most Popular sort within each spec (Oct 18, 2026), in stock 
 | J1 | Deutsch DT 4-pin PCB header, 90° (one per node, mates with DT06-4S drop plugs) | TE DT13-4P |
 | RV1 | Pot | Club stock, TBD |
 
-No 120 Ω terminator on node boards: termination lives in the harness end plugs.
+Termination (v0.2): 120 Ω only on the two trunk-end boards, the hub and rear-steer. No terminator on any other node board or in the harness.
 
 ## Schematic rules
 

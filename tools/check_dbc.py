@@ -14,7 +14,7 @@ BLOCKS = [  # (lo, hi, name)
     (0x200, 0x2FF, "Powertrain"),
     (0x300, 0x3FF, "Suspension and wheels"),
     (0x400, 0x4FF, "Vehicle dynamics"),
-    (0x500, 0x5FF, "Fuel and electrical"),
+    (0x500, 0x5FF, "Electrical"),
     (0x600, 0x6FF, "Spare"),
     (0x700, 0x77F, "Heartbeats"),
 ]

@@ -1,19 +1,40 @@
-# Baja DAQ CAN spec
+# Baja DAQ CAN spec v0.2
 
 The single source of truth for the Bobcat Baja DAQ CAN bus: what every node sends, on which ID, in what format, and how a node board is built. If your board talks on the bus, it follows this repo.
 
-> **Frozen Oct 19, 2026 (tag `spec-v0`).** Other teams build on these IDs and signals. Adding a message in your own slice: announce it at the Monday meeting. Changing or removing anything existing: agree at the meeting first, then bump `VERSION` in the DBC.
+> **v0 frozen Oct 19, 2026 (tag `spec-v0`).** Other teams build on these IDs and signals. Adding a message in your own slice: announce it at the Monday meeting. Changing or removing anything existing: agree at the meeting first, then bump `VERSION` in the DBC.
+>
+> **v0.2 (tag `spec-v0.2`)** follows the car topology approved at the Oct 19 meeting. See [What changed in v0.2](#what-changed-in-v02).
 
 ## What's here
 
 | Path | What | Kept by |
 |---|---|---|
-| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec. | Toph |
-| `docs/CAN_Node_Spec_v0.1.docx` | The human-readable spec: bus rules, node hardware, frame format, message table. | Toph |
+| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec (`VERSION "0.2"`). | Toph |
+| `docs/CAN_Node_Spec_v0.2.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
 | `docs/can_id_plan.md` | ID blocks, per-node slices, node IDs, how to add a node | Toph |
 | `docs/altium-standard.md` | Club Altium standard: board defaults, title block, OutJob, parts library, schematic and PCB rules | Toph |
+| `docs/topology.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
 | `registry/can_id_registry.csv` | Who owns which node ID and ID slices | Wrigley |
 | `tools/check_dbc.py` | DBC checker. Run before every DBC commit; must print `PASS`. | Toph |
+| `tools/draw_topology.py` | Regenerates `topology.png` (needs matplotlib) | Toph |
+
+Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx.
+
+## What changed in v0.2
+
+**Added**
+- Corner nodes `0x09–0x0C` on `0x320–0x323` (FL, FR, RL, RR): wheel speed, shock travel, tie-rod strain, 200 Hz.
+- Cockpit node `0x0D` on `0x120` (steering wheel, throttle, brake switch, marker) and `0x121` (front/rear brake pressure).
+- `PT_Temps` on `0x201` (CVT, head, gearbox temps, 10 Hz). Powertrain is now node `0x06`, assigned.
+
+**Retired** (IDs not reused)
+- SensorBoardV2: node `0x05`, `0x300` / `0x310`. Replaced by the corner nodes. Existing boards must also lose their 120 Ω (R8).
+- Fuel gauge: node `0x04`, `0x500`. A sensor in the tank is not feasible.
+
+**Termination moved** from the harness end plugs onto the **hub and rear-steer** boards, the two ends of the trunk.
+
+**Unchanged:** every other ID and signal. Diff status stays on `0x210` / `0x211`. Bus load rises from 12.9% to 18.9%.
 
 ## Quick start
 
@@ -30,20 +51,29 @@ cantools decode dbc/baja_daq.dbc < candump.log
 
 # Browse every message and signal
 cantools dump dbc/baja_daq.dbc
+
+# Redraw the topology diagram
+python -m pip install matplotlib
+cd docs && python ../tools/draw_topology.py
 ```
 
 On Windows, if `python` opens the Microsoft Store, turn off the `python.exe` alias under Settings › Apps › Advanced app settings › App execution aliases, or use `py`.
 
 ## The bus at a glance
 
+![Car CAN topology](docs/topology.png)
+
 | | |
 |---|---|
 | Protocol | Classic CAN 2.0A, 11-bit IDs, 1 Mbit/s. No CAN FD, no remote frames. |
 | Transceiver | TI SN65HVD230DR on 3.3 V, RS to GND |
-| Termination | 120 Ω in the two harness end plugs only (bus measures 60 Ω). No terminator on any node. |
+| Topology | One continuous trunk from the hub to rear-steer. Each node drops off it with a stub under 0.3 m; longer sensor cables (DTM) run from the node, not the bus. Harness team sets the physical route. |
+| Termination | 120 Ω on the two trunk-end boards only: hub and rear-steer (R11 fitted). Bus measures 60 Ω. No terminator on any other node or in the harness. |
 | Connector | One Deutsch DT13-4P per node (12 V, GND, CAN-H, CAN-L), mates with DT06-4S drop plugs |
 | Timing | Hub sends `SYNC` on `0x080` every 50 ms; nodes timestamp data relative to it |
-| Bus load | ~1,060 frames/s, 12.9% of 1 Mbit/s worst case. Limit is 50%. |
+| Bus load | ~1,470 frames/s, 18.9% of 1 Mbit/s worst case. Limit is 50%. |
+
+Keep CAN-H/CAN-L twisted and away from the ignition lead and rear-steer motor wires.
 
 ## Node hardware
 
@@ -73,17 +103,17 @@ On Windows, if `python` opens the Microsoft Store, turn off the `python.exe` ali
 
 Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node gets a 16-ID slice inside a block.
 
-| IDs | Block |
-|---|---|
-| `0x000–0x07F` | Faults |
-| `0x080–0x0FF` | Timing (SYNC `0x080`, GPS time `0x090`) |
-| `0x100–0x1FF` | Steering |
-| `0x200–0x2FF` | Powertrain |
-| `0x300–0x3FF` | Suspension and wheels |
-| `0x400–0x4FF` | Vehicle dynamics |
-| `0x500–0x5FF` | Fuel and electrical |
-| `0x600–0x6FF` | Spare |
-| `0x700–0x77F` | Heartbeats (`0x700` + node ID) |
+| IDs | Block | Slices |
+|---|---|---|
+| `0x000–0x07F` | Faults | rear-steer `0x010`, diffs `0x020` / `0x021` |
+| `0x080–0x0FF` | Timing | SYNC `0x080`, GPS time `0x090` |
+| `0x100–0x1FF` | Steering | rear-steer `0x100–0x10F`, cockpit `0x120–0x12F` |
+| `0x200–0x2FF` | Powertrain | powertrain `0x200–0x20F`, diffs `0x210` / `0x211` |
+| `0x300–0x3FF` | Suspension and wheels | `0x300–0x31F` retired, corners `0x320–0x323` |
+| `0x400–0x4FF` | Vehicle dynamics | hub IMU (internal), GPS `0x410–0x41F` |
+| `0x500–0x5FF` | Electrical | `0x500–0x50F` retired, hub battery (internal) |
+| `0x600–0x6FF` | Spare | — |
+| `0x700–0x77F` | Heartbeats | `0x700` + node ID |
 
 `0x400`, `0x401` and `0x510` are hub-internal (marked `HubInternal = 1` in the DBC): logged under these IDs so logs decode, but never put on the wire. Nobody else may use them.
 
@@ -91,15 +121,20 @@ Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node
 
 | Node ID | Node | DBC name | Built by | Status |
 |---|---|---|---|---|
-| `0x01` | Hub | `HUB` | DAQ | assigned |
-| `0x02` | Rear-steer | `REARSTEER` | Toph | assigned |
+| `0x01` | Hub (trunk end, terminated) | `HUB` | DAQ | assigned |
+| `0x02` | Rear-steer (trunk end, terminated) | `REARSTEER` | Toph | assigned |
 | `0x03` | Front diff | `DIFF_F` | Diff team | assigned |
-| `0x04` | Fuel gauge (PIC) | `FUEL` | Unassigned | assigned |
-| `0x05` | SensorBoardV2 (wheel speed, shock) | `SENSORV2` | Shock team | assigned |
-| `0x06` | Engine/CVT speed | `POWERTRAIN` | Unplanned | reserved |
+| `0x04` | ~~Fuel gauge~~ | — | — | retired, do not reuse |
+| `0x05` | ~~SensorBoardV2~~ | — | — | retired, do not reuse |
+| `0x06` | Powertrain (speeds, temps) | `POWERTRAIN` | Unassigned | assigned |
 | `0x07` | GPS | `GPS` | DAQ, if built | reserved |
 | `0x08` | Rear diff | `DIFF_R` | Diff team | assigned |
-| `0x09–0x0F` | — | — | — | reserved |
+| `0x09` | Front-left corner | `CORNER_FL` | Shock team | assigned |
+| `0x0A` | Front-right corner | `CORNER_FR` | Shock team | assigned |
+| `0x0B` | Rear-left corner | `CORNER_RL` | Shock team | assigned |
+| `0x0C` | Rear-right corner | `CORNER_RR` | Shock team | assigned |
+| `0x0D` | Cockpit | `COCKPIT` | Unassigned | assigned |
+| `0x0E–0x0F` | — | — | — | reserved |
 | `0x10–0x7F` | New nodes | — | Claim in the registry | open |
 
 Full slice and message ownership is in `registry/can_id_registry.csv`.
@@ -111,7 +146,7 @@ Full slice and message ownership is in `registry/can_id_registry.csv`.
 3. **Check:** `python tools/check_dbc.py dbc/baja_daq.dbc` until it prints `PASS`.
 4. **Review:** open a pull request; Toph reviews.
 5. **Announce** additions at the Monday meeting.
-6. **Build** the board from the club template and CAN Node Core block.
+6. **Build** the board from the club template and CAN Node Core block. No terminator unless it's a trunk end.
 7. **Bench test:** plug in, see the heartbeat on the dashboard, check values decode in real units.
 
 Changes to **existing** IDs or signals need agreement at the Monday meeting *before* the pull request, and a `VERSION` bump in the DBC.

@@ -1,4 +1,4 @@
-VERSION "0.0"
+VERSION "0.2"
 
 NS_ :
 	CM_
@@ -9,7 +9,7 @@ NS_ :
 
 BS_:
 
-BU_: HUB REARSTEER DIFF_F FUEL SENSORV2 POWERTRAIN GPS DIFF_R
+BU_: HUB REARSTEER DIFF_F POWERTRAIN GPS DIFF_R CORNER_FL CORNER_FR CORNER_RL CORNER_RR COCKPIT
 
 BO_ 16 RS_Fault: 5 REARSTEER
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
@@ -30,7 +30,7 @@ BO_ 33 DiffR_Fault: 5 DIFF_R
  SG_ Severity : 32|8@1+ (1,0) [0|254] "" HUB
 
 BO_ 128 SYNC: 1 HUB
- SG_ SyncCounter : 0|8@1+ (1,0) [0|255] "" REARSTEER,DIFF_F,FUEL,SENSORV2,POWERTRAIN,GPS,DIFF_R
+ SG_ SyncCounter : 0|8@1+ (1,0) [0|255] "" REARSTEER,DIFF_F,POWERTRAIN,GPS,DIFF_R,CORNER_FL,CORNER_FR,CORNER_RL,CORNER_RR,COCKPIT
 
 BO_ 144 GPS_Time: 4 GPS
  SG_ UtcTimeOfDay : 0|32@1+ (1,0) [0|4294967294] "ms" HUB
@@ -47,11 +47,33 @@ BO_ 257 RS_SteerMotor: 6 REARSTEER
  SG_ MotorCurrent : 24|16@1- (0.01,0) [-327.68|327.66] "A" HUB
  SG_ Mode : 40|8@1+ (1,0) [0|254] "" HUB
 
+BO_ 288 CP_Driver: 7 COCKPIT
+ SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
+ SG_ SteeringWheelAngle : 24|16@1- (0.1,0) [-3276.8|3276.6] "deg" HUB
+ SG_ Throttle : 40|8@1+ (0.5,0) [0|127] "%" HUB
+ SG_ BrakeSwitch : 48|1@1+ (1,0) [0|1] "" HUB
+ SG_ MarkerButton : 49|1@1+ (1,0) [0|1] "" HUB
+
+BO_ 289 CP_Brakes: 7 COCKPIT
+ SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
+ SG_ FrontBrakePressure : 24|16@1+ (0.1,0) [0|6553.4] "bar" HUB
+ SG_ RearBrakePressure : 40|16@1+ (0.1,0) [0|6553.4] "bar" HUB
+
 BO_ 512 PT_EngineCVT: 7 POWERTRAIN
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
  SG_ EngineSpeed : 24|16@1+ (1,0) [0|65534] "rpm" HUB
  SG_ CvtSecondarySpeed : 40|16@1+ (1,0) [0|65534] "rpm" HUB
+
+BO_ 513 PT_Temps: 7 POWERTRAIN
+ SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
+ SG_ CvtPrimaryTemp : 24|8@1+ (1,-40) [-40|214] "degC" HUB
+ SG_ CvtSecondaryTemp : 32|8@1+ (1,-40) [-40|214] "degC" HUB
+ SG_ HeadTemp : 40|8@1+ (2,0) [0|508] "degC" HUB
+ SG_ GearboxTemp : 48|8@1+ (1,-40) [-40|214] "degC" HUB
 
 BO_ 528 DiffF_Status: 6 DIFF_F
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
@@ -65,17 +87,33 @@ BO_ 529 DiffR_Status: 6 DIFF_R
  SG_ Current : 24|16@1- (0.01,0) [-327.68|327.66] "A" HUB
  SG_ State : 40|8@1+ (1,0) [0|254] "" HUB
 
-BO_ 768 SB_WheelSpeed: 7 SENSORV2
+BO_ 800 CornerFL: 8 CORNER_FL
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ LeftWheel : 24|16@1+ (0.1,0) [0|6553.4] "rpm" HUB
- SG_ RightWheel : 40|16@1+ (0.1,0) [0|6553.4] "rpm" HUB
+ SG_ WheelSpeed : 24|8@1+ (0.5,0) [0|127] "km/h" HUB
+ SG_ ShockTravel : 32|16@1+ (0.01,0) [0|655.34] "mm" HUB
+ SG_ TieRodStrain : 48|16@1- (1,0) [-32768|32766] "ustrain" HUB
 
-BO_ 784 SB_ShockTravel: 7 SENSORV2
+BO_ 801 CornerFR: 8 CORNER_FR
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ ST1 : 24|16@1+ (0.01,0) [0|655.34] "mm" HUB
- SG_ ST2 : 40|16@1+ (0.01,0) [0|655.34] "mm" HUB
+ SG_ WheelSpeed : 24|8@1+ (0.5,0) [0|127] "km/h" HUB
+ SG_ ShockTravel : 32|16@1+ (0.01,0) [0|655.34] "mm" HUB
+ SG_ TieRodStrain : 48|16@1- (1,0) [-32768|32766] "ustrain" HUB
+
+BO_ 802 CornerRL: 8 CORNER_RL
+ SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
+ SG_ WheelSpeed : 24|8@1+ (0.5,0) [0|127] "km/h" HUB
+ SG_ ShockTravel : 32|16@1+ (0.01,0) [0|655.34] "mm" HUB
+ SG_ TieRodStrain : 48|16@1- (1,0) [-32768|32766] "ustrain" HUB
+
+BO_ 803 CornerRR: 8 CORNER_RR
+ SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
+ SG_ WheelSpeed : 24|8@1+ (0.5,0) [0|127] "km/h" HUB
+ SG_ ShockTravel : 32|16@1+ (0.01,0) [0|655.34] "mm" HUB
+ SG_ TieRodStrain : 48|16@1- (1,0) [-32768|32766] "ustrain" HUB
 
 BO_ 1024 HUB_IMU_Accel: 6 HUB
  SG_ AccelX : 0|16@1- (0.001,0) [-32.768|32.766] "g" Vector__XXX
@@ -103,11 +141,6 @@ BO_ 1042 GPS_SpeedHeading: 7 GPS
  SG_ GroundSpeed : 24|16@1+ (0.01,0) [0|655.34] "m/s" HUB
  SG_ Heading : 40|16@1+ (0.01,0) [0|655.34] "deg" HUB
 
-BO_ 1280 FUEL_Level: 4 FUEL
- SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ FuelLevel : 24|8@1+ (0.5,0) [0|127] "%" HUB
-
 BO_ 1296 HUB_Battery: 2 HUB
  SG_ BatteryVoltage : 0|16@1+ (0.01,0) [0|655.34] "V" Vector__XXX
 
@@ -128,22 +161,6 @@ BO_ 1794 HB_REARSTEER: 8 REARSTEER
  SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
 
 BO_ 1795 HB_DIFF_F: 8 DIFF_F
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
-
-BO_ 1796 HB_FUEL: 8 FUEL
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
-
-BO_ 1797 HB_SENSORV2: 8 SENSORV2
  SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
  SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
@@ -175,7 +192,47 @@ BO_ 1800 HB_DIFF_R: 8 DIFF_R
  SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
  SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
 
-CM_ "Baja DAQ CAN spec v0 (frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
+BO_ 1801 HB_CORNER_FL: 8 CORNER_FL
+ SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+
+BO_ 1802 HB_CORNER_FR: 8 CORNER_FR
+ SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+
+BO_ 1803 HB_CORNER_RL: 8 CORNER_RL
+ SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+
+BO_ 1804 HB_CORNER_RR: 8 CORNER_RR
+ SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+
+BO_ 1805 HB_COCKPIT: 8 COCKPIT
+ SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
+ SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+
+CM_ "Baja DAQ CAN spec v0.2 (corner-node topology, Oct 2026; v0 frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
 CM_ SG_ 16 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 16 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ BO_ 16 "Sent on change, then 10 Hz while active";
@@ -193,19 +250,44 @@ CM_ SG_ 256 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 256 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 257 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 257 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 288 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 288 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 288 SteeringWheelAngle "Negative = left";
+CM_ SG_ 288 MarkerButton "Driver presses to mark a moment in the log";
+CM_ SG_ 289 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 289 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ BO_ 289 "Front and rear sampled together, so their ratio is brake bias";
 CM_ SG_ 512 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 512 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 513 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 513 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 513 HeadTemp "2 degC steps, reads to 508 degC";
 CM_ SG_ 528 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 528 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 528 State "Values defined by diff team";
 CM_ SG_ 529 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 529 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 529 State "Values defined by diff team";
-CM_ SG_ 768 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 768 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 784 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 784 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ BO_ 784 "Assumes ST1/ST2 are shock travel; confirm with shock team";
+CM_ SG_ 800 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 800 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 800 ShockTravel "0 = full droop";
+CM_ SG_ 800 TieRodStrain "Negative = compression";
+CM_ BO_ 800 "Corner node, front-left";
+CM_ SG_ 801 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 801 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 801 ShockTravel "0 = full droop";
+CM_ SG_ 801 TieRodStrain "Negative = compression";
+CM_ BO_ 801 "Corner node, front-right";
+CM_ SG_ 802 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 802 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 802 ShockTravel "0 = full droop";
+CM_ SG_ 802 TieRodStrain "Negative = compression";
+CM_ BO_ 802 "Corner node, rear-left";
+CM_ SG_ 803 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
+CM_ SG_ 803 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
+CM_ SG_ 803 ShockTravel "0 = full droop";
+CM_ SG_ 803 TieRodStrain "Negative = compression";
+CM_ BO_ 803 "Corner node, rear-right";
 CM_ BO_ 1024 "Hub-internal: logged with this ID, never transmitted. No header";
 CM_ BO_ 1025 "Hub-internal: logged with this ID, never transmitted. No header";
 CM_ SG_ 1040 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
@@ -214,8 +296,6 @@ CM_ SG_ 1041 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 1041 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 1042 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 1042 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 1280 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 1280 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ BO_ 1296 "Hub-internal: logged with this ID, never transmitted. No header";
 CM_ SG_ 1793 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1793 Uptime "Seconds since power-up, wraps";
@@ -226,29 +306,41 @@ CM_ BO_ 1794 "Heartbeat, Rear-steer controller. No header";
 CM_ SG_ 1795 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1795 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1795 "Heartbeat, Front diff controller. No header";
-CM_ SG_ 1796 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
-CM_ SG_ 1796 Uptime "Seconds since power-up, wraps";
-CM_ BO_ 1796 "Heartbeat, Fuel gauge (PIC). No header";
-CM_ SG_ 1797 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
-CM_ SG_ 1797 Uptime "Seconds since power-up, wraps";
-CM_ BO_ 1797 "Heartbeat, SensorBoardV2: wheel speed, shock travel. No header";
 CM_ SG_ 1798 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1798 Uptime "Seconds since power-up, wraps";
-CM_ BO_ 1798 "Heartbeat, Engine and CVT speed node (unplanned, ID reserved). No header";
+CM_ BO_ 1798 "Heartbeat, Powertrain node: engine/CVT speed and temps. No header";
 CM_ SG_ 1799 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1799 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1799 "Heartbeat, GPS node (DAQ, if built). No header";
 CM_ SG_ 1800 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1800 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1800 "Heartbeat, Rear diff controller. No header";
+CM_ SG_ 1801 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
+CM_ SG_ 1801 Uptime "Seconds since power-up, wraps";
+CM_ BO_ 1801 "Heartbeat, Front-left corner node. No header";
+CM_ SG_ 1802 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
+CM_ SG_ 1802 Uptime "Seconds since power-up, wraps";
+CM_ BO_ 1802 "Heartbeat, Front-right corner node. No header";
+CM_ SG_ 1803 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
+CM_ SG_ 1803 Uptime "Seconds since power-up, wraps";
+CM_ BO_ 1803 "Heartbeat, Rear-left corner node. No header";
+CM_ SG_ 1804 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
+CM_ SG_ 1804 Uptime "Seconds since power-up, wraps";
+CM_ BO_ 1804 "Heartbeat, Rear-right corner node. No header";
+CM_ SG_ 1805 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
+CM_ SG_ 1805 Uptime "Seconds since power-up, wraps";
+CM_ BO_ 1805 "Heartbeat, Cockpit node: driver inputs. No header";
 CM_ BU_ HUB "Node ID 0x01: DAQ hub";
 CM_ BU_ REARSTEER "Node ID 0x02: Rear-steer controller";
 CM_ BU_ DIFF_F "Node ID 0x03: Front diff controller";
-CM_ BU_ FUEL "Node ID 0x04: Fuel gauge (PIC)";
-CM_ BU_ SENSORV2 "Node ID 0x05: SensorBoardV2: wheel speed, shock travel";
-CM_ BU_ POWERTRAIN "Node ID 0x06: Engine and CVT speed node (unplanned, ID reserved)";
+CM_ BU_ POWERTRAIN "Node ID 0x06: Powertrain node: engine/CVT speed and temps";
 CM_ BU_ GPS "Node ID 0x07: GPS node (DAQ, if built)";
 CM_ BU_ DIFF_R "Node ID 0x08: Rear diff controller";
+CM_ BU_ CORNER_FL "Node ID 0x09: Front-left corner node";
+CM_ BU_ CORNER_FR "Node ID 0x0A: Front-right corner node";
+CM_ BU_ CORNER_RL "Node ID 0x0B: Rear-left corner node";
+CM_ BU_ CORNER_RR "Node ID 0x0C: Rear-right corner node";
+CM_ BU_ COCKPIT "Node ID 0x0D: Cockpit node: driver inputs";
 
 BA_DEF_ BO_ "GenMsgCycleTime" INT 0 65535;
 BA_DEF_ BO_ "HubInternal" INT 0 1;
@@ -268,16 +360,26 @@ BA_ "GenMsgCycleTime" BO_ 256 10;
 BA_ "HubInternal" BO_ 256 0;
 BA_ "GenMsgCycleTime" BO_ 257 10;
 BA_ "HubInternal" BO_ 257 0;
+BA_ "GenMsgCycleTime" BO_ 288 10;
+BA_ "HubInternal" BO_ 288 0;
+BA_ "GenMsgCycleTime" BO_ 289 10;
+BA_ "HubInternal" BO_ 289 0;
 BA_ "GenMsgCycleTime" BO_ 512 10;
 BA_ "HubInternal" BO_ 512 0;
+BA_ "GenMsgCycleTime" BO_ 513 100;
+BA_ "HubInternal" BO_ 513 0;
 BA_ "GenMsgCycleTime" BO_ 528 20;
 BA_ "HubInternal" BO_ 528 0;
 BA_ "GenMsgCycleTime" BO_ 529 20;
 BA_ "HubInternal" BO_ 529 0;
-BA_ "GenMsgCycleTime" BO_ 768 10;
-BA_ "HubInternal" BO_ 768 0;
-BA_ "GenMsgCycleTime" BO_ 784 2;
-BA_ "HubInternal" BO_ 784 0;
+BA_ "GenMsgCycleTime" BO_ 800 5;
+BA_ "HubInternal" BO_ 800 0;
+BA_ "GenMsgCycleTime" BO_ 801 5;
+BA_ "HubInternal" BO_ 801 0;
+BA_ "GenMsgCycleTime" BO_ 802 5;
+BA_ "HubInternal" BO_ 802 0;
+BA_ "GenMsgCycleTime" BO_ 803 5;
+BA_ "HubInternal" BO_ 803 0;
 BA_ "GenMsgCycleTime" BO_ 1024 2;
 BA_ "HubInternal" BO_ 1024 1;
 BA_ "GenMsgCycleTime" BO_ 1025 2;
@@ -288,8 +390,6 @@ BA_ "GenMsgCycleTime" BO_ 1041 100;
 BA_ "HubInternal" BO_ 1041 0;
 BA_ "GenMsgCycleTime" BO_ 1042 100;
 BA_ "HubInternal" BO_ 1042 0;
-BA_ "GenMsgCycleTime" BO_ 1280 1000;
-BA_ "HubInternal" BO_ 1280 0;
 BA_ "GenMsgCycleTime" BO_ 1296 100;
 BA_ "HubInternal" BO_ 1296 1;
 BA_ "GenMsgCycleTime" BO_ 1793 1000;
@@ -298,16 +398,22 @@ BA_ "GenMsgCycleTime" BO_ 1794 1000;
 BA_ "HubInternal" BO_ 1794 0;
 BA_ "GenMsgCycleTime" BO_ 1795 1000;
 BA_ "HubInternal" BO_ 1795 0;
-BA_ "GenMsgCycleTime" BO_ 1796 1000;
-BA_ "HubInternal" BO_ 1796 0;
-BA_ "GenMsgCycleTime" BO_ 1797 1000;
-BA_ "HubInternal" BO_ 1797 0;
 BA_ "GenMsgCycleTime" BO_ 1798 1000;
 BA_ "HubInternal" BO_ 1798 0;
 BA_ "GenMsgCycleTime" BO_ 1799 1000;
 BA_ "HubInternal" BO_ 1799 0;
 BA_ "GenMsgCycleTime" BO_ 1800 1000;
 BA_ "HubInternal" BO_ 1800 0;
+BA_ "GenMsgCycleTime" BO_ 1801 1000;
+BA_ "HubInternal" BO_ 1801 0;
+BA_ "GenMsgCycleTime" BO_ 1802 1000;
+BA_ "HubInternal" BO_ 1802 0;
+BA_ "GenMsgCycleTime" BO_ 1803 1000;
+BA_ "HubInternal" BO_ 1803 0;
+BA_ "GenMsgCycleTime" BO_ 1804 1000;
+BA_ "HubInternal" BO_ 1804 0;
+BA_ "GenMsgCycleTime" BO_ 1805 1000;
+BA_ "HubInternal" BO_ 1805 0;
 
 VAL_ 16 FaultCode 0 "NONE" 1 "OVERCURRENT" 2 "FRONT_POT_FAULT" 3 "REAR_POT_FAULT" 4 "TRACKING_ERROR" 5 "UNDERVOLTAGE" ;
 VAL_ 16 Severity 1 "WARNING" 2 "CRITICAL" ;
@@ -317,8 +423,11 @@ VAL_ 257 Mode 0 "DISABLED" 1 "ACTIVE" 2 "CENTERING" 3 "FAULT_STOP" ;
 VAL_ 1793 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1794 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1795 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
-VAL_ 1796 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
-VAL_ 1797 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1798 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1799 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1800 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
+VAL_ 1801 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
+VAL_ 1802 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
+VAL_ 1803 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
+VAL_ 1804 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
+VAL_ 1805 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;

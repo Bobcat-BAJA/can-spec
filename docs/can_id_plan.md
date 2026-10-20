@@ -1,6 +1,6 @@
-# CAN ID Plan v0
+# CAN ID Plan v0.2
 
-Frozen at the Oct 19, 2026 meeting. Owner: Toph Jones. Registry kept by Wrigley Beardmore (`registry/can_id_registry.csv`).
+v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approved there. Owner: Toph Jones. Registry kept by Wrigley Beardmore (`registry/can_id_registry.csv`).
 
 **Rules**
 - Lower ID wins arbitration, so the most critical messages get the lowest IDs: faults first, then SYNC.
@@ -15,11 +15,11 @@ Frozen at the Oct 19, 2026 meeting. Owner: Toph Jones. Registry kept by Wrigley 
 |---|---|---|
 | 0x000–0x07F | Faults | 0x000–0x00F reserved · 0x010–0x01F rear-steer · 0x020–0x02F diffs (F 0x020, R 0x021) |
 | 0x080–0x0FF | Timing | 0x080 SYNC (hub) · 0x090–0x09F GPS time |
-| 0x100–0x1FF | Steering | 0x100–0x10F rear-steer |
-| 0x200–0x2FF | Powertrain | 0x200–0x20F engine/CVT (reserved) · 0x210–0x21F diffs (F 0x210, R 0x211) |
-| 0x300–0x3FF | Suspension and wheels | 0x300–0x31F SensorBoardV2 (wheel speed 0x300, shock 0x310) |
+| 0x100–0x1FF | Steering | 0x100–0x10F rear-steer · 0x120–0x12F cockpit |
+| 0x200–0x2FF | Powertrain | 0x200–0x20F powertrain (0x200 speeds, 0x201 temps) · 0x210–0x21F diffs (F 0x210, R 0x211) |
+| 0x300–0x3FF | Suspension and wheels | 0x300–0x31F retired (old SensorBoardV2) · 0x320–0x32F corners (FL 0x320, FR 0x321, RL 0x322, RR 0x323) |
 | 0x400–0x4FF | Vehicle dynamics | 0x400–0x40F hub IMU (internal) · 0x410–0x41F GPS |
-| 0x500–0x5FF | Fuel and electrical | 0x500–0x50F fuel gauge · 0x510–0x51F hub battery (internal) |
+| 0x500–0x5FF | Electrical | 0x500–0x50F retired (old fuel gauge) · 0x510–0x51F hub battery (internal) |
 | 0x600–0x6FF | Spare | — |
 | 0x700–0x77F | Heartbeats | 0x700 + node ID |
 
@@ -30,12 +30,17 @@ Frozen at the Oct 19, 2026 meeting. Owner: Toph Jones. Registry kept by Wrigley 
 | 0x01 | Hub | 0x701 | DAQ |
 | 0x02 | Rear-steer | 0x702 | Toph |
 | 0x03 | Front diff | 0x703 | Diff team |
-| 0x04 | Fuel gauge (PIC) | 0x704 | Unassigned |
-| 0x05 | SensorBoardV2 (wheel speed, shock) | 0x705 | Shock team |
-| 0x06 | Engine/CVT speed | 0x706 | Unplanned, reserved |
+| 0x04 | Retired (was fuel gauge). Do not reuse | — | — |
+| 0x05 | Retired (was SensorBoardV2). Do not reuse | — | — |
+| 0x06 | Powertrain | 0x706 | Unassigned |
 | 0x07 | GPS | 0x707 | DAQ, if built |
 | 0x08 | Rear diff | 0x708 | Diff team |
-| 0x09–0x0F | Reserved | | |
+| 0x09 | Front-left corner | 0x709 | Shock team |
+| 0x0A | Front-right corner | 0x70A | Shock team |
+| 0x0B | Rear-left corner | 0x70B | Shock team |
+| 0x0C | Rear-right corner | 0x70C | Shock team |
+| 0x0D | Cockpit | 0x70D | Unassigned |
+| 0x0E–0x0F | Reserved | | |
 | 0x10–0x7F | New nodes, claimed in the registry | 0x710–0x77F | |
 
 ## Adding a node or message
