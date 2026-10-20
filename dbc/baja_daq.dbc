@@ -1,4 +1,4 @@
-VERSION "0.2"
+VERSION "0.3"
 
 NS_ :
 	CM_
@@ -9,7 +9,7 @@ NS_ :
 
 BS_:
 
-BU_: HUB REARSTEER DIFF_F POWERTRAIN GPS DIFF_R CORNER_FL CORNER_FR CORNER_RL CORNER_RR COCKPIT
+BU_: HUB REARSTEER POWERTRAIN GPS CORNER_FL CORNER_FR CORNER_RL CORNER_RR COCKPIT
 
 BO_ 16 RS_Fault: 5 REARSTEER
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
@@ -17,20 +17,8 @@ BO_ 16 RS_Fault: 5 REARSTEER
  SG_ FaultCode : 24|8@1+ (1,0) [0|254] "" HUB
  SG_ Severity : 32|8@1+ (1,0) [0|254] "" HUB
 
-BO_ 32 DiffF_Fault: 5 DIFF_F
- SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ FaultCode : 24|8@1+ (1,0) [0|254] "" HUB
- SG_ Severity : 32|8@1+ (1,0) [0|254] "" HUB
-
-BO_ 33 DiffR_Fault: 5 DIFF_R
- SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ FaultCode : 24|8@1+ (1,0) [0|254] "" HUB
- SG_ Severity : 32|8@1+ (1,0) [0|254] "" HUB
-
 BO_ 128 SYNC: 1 HUB
- SG_ SyncCounter : 0|8@1+ (1,0) [0|255] "" REARSTEER,DIFF_F,POWERTRAIN,GPS,DIFF_R,CORNER_FL,CORNER_FR,CORNER_RL,CORNER_RR,COCKPIT
+ SG_ SyncCounter : 0|8@1+ (1,0) [0|255] "" REARSTEER,POWERTRAIN,GPS,CORNER_FL,CORNER_FR,CORNER_RL,CORNER_RR,COCKPIT
 
 BO_ 144 GPS_Time: 4 GPS
  SG_ UtcTimeOfDay : 0|32@1+ (1,0) [0|4294967294] "ms" HUB
@@ -74,18 +62,6 @@ BO_ 513 PT_Temps: 7 POWERTRAIN
  SG_ CvtSecondaryTemp : 32|8@1+ (1,-40) [-40|214] "degC" HUB
  SG_ HeadTemp : 40|8@1+ (2,0) [0|508] "degC" HUB
  SG_ GearboxTemp : 48|8@1+ (1,-40) [-40|214] "degC" HUB
-
-BO_ 528 DiffF_Status: 6 DIFF_F
- SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ Current : 24|16@1- (0.01,0) [-327.68|327.66] "A" HUB
- SG_ State : 40|8@1+ (1,0) [0|254] "" HUB
-
-BO_ 529 DiffR_Status: 6 DIFF_R
- SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ SinceSync : 8|16@1+ (1,0) [0|65534] "us" HUB
- SG_ Current : 24|16@1- (0.01,0) [-327.68|327.66] "A" HUB
- SG_ State : 40|8@1+ (1,0) [0|254] "" HUB
 
 BO_ 800 CornerFL: 8 CORNER_FL
  SG_ Seq : 0|8@1+ (1,0) [0|255] "" HUB
@@ -160,14 +136,6 @@ BO_ 1794 HB_REARSTEER: 8 REARSTEER
  SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
  SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1795 HB_DIFF_F: 8 DIFF_F
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
-
 BO_ 1798 HB_POWERTRAIN: 8 POWERTRAIN
  SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
@@ -177,14 +145,6 @@ BO_ 1798 HB_POWERTRAIN: 8 POWERTRAIN
  SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
 
 BO_ 1799 HB_GPS: 8 GPS
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
-
-BO_ 1800 HB_DIFF_R: 8 DIFF_R
  SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
  SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
  SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
@@ -232,18 +192,10 @@ BO_ 1805 HB_COCKPIT: 8 COCKPIT
  SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
  SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
 
-CM_ "Baja DAQ CAN spec v0.2 (corner-node topology, Oct 2026; v0 frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
+CM_ "Baja DAQ CAN spec v0.3 (corner-node topology; diff nodes retired Oct 20 2026; v0 frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
 CM_ SG_ 16 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 16 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ BO_ 16 "Sent on change, then 10 Hz while active";
-CM_ SG_ 32 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 32 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 32 FaultCode "Codes defined by diff team";
-CM_ BO_ 32 "Sent on change, then 10 Hz while active";
-CM_ SG_ 33 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 33 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 33 FaultCode "Codes defined by diff team";
-CM_ BO_ 33 "Sent on change, then 10 Hz while active";
 CM_ BO_ 128 "No header. Nodes reset their us counter on receipt";
 CM_ BO_ 144 "No header. Sent on PPS";
 CM_ SG_ 256 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
@@ -262,12 +214,6 @@ CM_ SG_ 512 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 513 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 513 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 513 HeadTemp "2 degC steps, reads to 508 degC";
-CM_ SG_ 528 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 528 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 528 State "Values defined by diff team";
-CM_ SG_ 529 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
-CM_ SG_ 529 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
-CM_ SG_ 529 State "Values defined by diff team";
 CM_ SG_ 800 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 800 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ SG_ 800 ShockTravel "0 = full droop";
@@ -303,18 +249,12 @@ CM_ BO_ 1793 "Heartbeat, DAQ hub. No header";
 CM_ SG_ 1794 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1794 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1794 "Heartbeat, Rear-steer controller. No header";
-CM_ SG_ 1795 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
-CM_ SG_ 1795 Uptime "Seconds since power-up, wraps";
-CM_ BO_ 1795 "Heartbeat, Front diff controller. No header";
 CM_ SG_ 1798 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1798 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1798 "Heartbeat, Powertrain node: engine/CVT speed and temps. No header";
 CM_ SG_ 1799 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1799 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1799 "Heartbeat, GPS node (DAQ, if built). No header";
-CM_ SG_ 1800 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
-CM_ SG_ 1800 Uptime "Seconds since power-up, wraps";
-CM_ BO_ 1800 "Heartbeat, Rear diff controller. No header";
 CM_ SG_ 1801 ErrorFlags "Bits 0-7 node library: 0 no SYNC seen, 1 CAN error-passive since last HB, 2 TX queue overflow, 3 brownout/watchdog reset. Bits 8-15 node-specific";
 CM_ SG_ 1801 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1801 "Heartbeat, Front-left corner node. No header";
@@ -332,10 +272,8 @@ CM_ SG_ 1805 Uptime "Seconds since power-up, wraps";
 CM_ BO_ 1805 "Heartbeat, Cockpit node: driver inputs. No header";
 CM_ BU_ HUB "Node ID 0x01: DAQ hub";
 CM_ BU_ REARSTEER "Node ID 0x02: Rear-steer controller";
-CM_ BU_ DIFF_F "Node ID 0x03: Front diff controller";
 CM_ BU_ POWERTRAIN "Node ID 0x06: Powertrain node: engine/CVT speed and temps";
 CM_ BU_ GPS "Node ID 0x07: GPS node (DAQ, if built)";
-CM_ BU_ DIFF_R "Node ID 0x08: Rear diff controller";
 CM_ BU_ CORNER_FL "Node ID 0x09: Front-left corner node";
 CM_ BU_ CORNER_FR "Node ID 0x0A: Front-right corner node";
 CM_ BU_ CORNER_RL "Node ID 0x0B: Rear-left corner node";
@@ -348,10 +286,6 @@ BA_DEF_DEF_ "GenMsgCycleTime" 0;
 BA_DEF_DEF_ "HubInternal" 0;
 BA_ "GenMsgCycleTime" BO_ 16 0;
 BA_ "HubInternal" BO_ 16 0;
-BA_ "GenMsgCycleTime" BO_ 32 0;
-BA_ "HubInternal" BO_ 32 0;
-BA_ "GenMsgCycleTime" BO_ 33 0;
-BA_ "HubInternal" BO_ 33 0;
 BA_ "GenMsgCycleTime" BO_ 128 50;
 BA_ "HubInternal" BO_ 128 0;
 BA_ "GenMsgCycleTime" BO_ 144 1000;
@@ -368,10 +302,6 @@ BA_ "GenMsgCycleTime" BO_ 512 10;
 BA_ "HubInternal" BO_ 512 0;
 BA_ "GenMsgCycleTime" BO_ 513 100;
 BA_ "HubInternal" BO_ 513 0;
-BA_ "GenMsgCycleTime" BO_ 528 20;
-BA_ "HubInternal" BO_ 528 0;
-BA_ "GenMsgCycleTime" BO_ 529 20;
-BA_ "HubInternal" BO_ 529 0;
 BA_ "GenMsgCycleTime" BO_ 800 5;
 BA_ "HubInternal" BO_ 800 0;
 BA_ "GenMsgCycleTime" BO_ 801 5;
@@ -396,14 +326,10 @@ BA_ "GenMsgCycleTime" BO_ 1793 1000;
 BA_ "HubInternal" BO_ 1793 0;
 BA_ "GenMsgCycleTime" BO_ 1794 1000;
 BA_ "HubInternal" BO_ 1794 0;
-BA_ "GenMsgCycleTime" BO_ 1795 1000;
-BA_ "HubInternal" BO_ 1795 0;
 BA_ "GenMsgCycleTime" BO_ 1798 1000;
 BA_ "HubInternal" BO_ 1798 0;
 BA_ "GenMsgCycleTime" BO_ 1799 1000;
 BA_ "HubInternal" BO_ 1799 0;
-BA_ "GenMsgCycleTime" BO_ 1800 1000;
-BA_ "HubInternal" BO_ 1800 0;
 BA_ "GenMsgCycleTime" BO_ 1801 1000;
 BA_ "HubInternal" BO_ 1801 0;
 BA_ "GenMsgCycleTime" BO_ 1802 1000;
@@ -417,15 +343,11 @@ BA_ "HubInternal" BO_ 1805 0;
 
 VAL_ 16 FaultCode 0 "NONE" 1 "OVERCURRENT" 2 "FRONT_POT_FAULT" 3 "REAR_POT_FAULT" 4 "TRACKING_ERROR" 5 "UNDERVOLTAGE" ;
 VAL_ 16 Severity 1 "WARNING" 2 "CRITICAL" ;
-VAL_ 32 Severity 1 "WARNING" 2 "CRITICAL" ;
-VAL_ 33 Severity 1 "WARNING" 2 "CRITICAL" ;
 VAL_ 257 Mode 0 "DISABLED" 1 "ACTIVE" 2 "CENTERING" 3 "FAULT_STOP" ;
 VAL_ 1793 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1794 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
-VAL_ 1795 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1798 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1799 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
-VAL_ 1800 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1801 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1802 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;
 VAL_ 1803 State 0 "BOOTING" 1 "OK" 2 "WARNING" 3 "FAULT" ;

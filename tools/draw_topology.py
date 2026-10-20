@@ -28,9 +28,8 @@ def node(side,y,name,l2,l3,kind,dashed=False):
     ax.plot([tx],[y],"o",ms=6,color=TRUNK,zorder=2)
 rows=[ # y, left, right
  (8.85,("Front-left","node 0x09 · data 0x320","wheel spd · shock · tie-rod","corner"),("Front-right","node 0x0A · data 0x321","wheel spd · shock · tie-rod","corner")),
- (7.55,("Front diff","node 0x03 · 0x020, 0x210","diff controller","other"),("Cockpit","node 0x0D · 0x120–0x121","steering · throttle · brakes","core")),
-(6.25,("GPS (if built)","node 0x07 · 0x090, 0x410–0x412","","other",True),None),
- (4.95,("Rear diff","node 0x08 · 0x021, 0x211","diff controller","other"),("Powertrain","node 0x06 · 0x200–0x201","engine/CVT speed · temps","core")),
+ (7.12,("Cockpit","node 0x0D · 0x120–0x121","steering · throttle · brakes","core"),("GPS (if built)","node 0x07 · 0x090, 0x410–0x412","","other",True)),
+ (5.38,("Powertrain","node 0x06 · 0x200–0x201","engine/CVT speed · temps","core"),None),
  (3.65,("Rear-left","node 0x0B · data 0x322","wheel spd · shock · tie-rod","corner"),("Rear-right","node 0x0C · data 0x323","wheel spd · shock · tie-rod","corner")),
 ]
 for y,l,r in rows:
