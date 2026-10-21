@@ -15,6 +15,7 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 | `docs/can_id_plan.md` | ID blocks, per-node slices, node IDs, how to add a node | Toph |
 | `docs/altium-standard.md` | Club Altium standard: board defaults, title block, OutJob, parts library, schematic and PCB rules | Toph |
 | `docs/topology.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
+| `docs/Standards_v0.pdf` | v0 standards: wire colors, DT 4 and 12 pin pinouts, bit rate, frame header and heartbeat, termination, power, MCU | Toph |
 | `registry/can_id_registry.csv` | Who owns which node ID and ID slices | Wrigley |
 | `tools/check_dbc.py` | DBC checker. Run before every DBC commit; must print `PASS`. | Toph |
 | `tools/draw_topology.py` | Regenerates `topology.png` (needs matplotlib) | Toph |
