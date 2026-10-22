@@ -1,17 +1,19 @@
-# Baja DAQ CAN spec v0.2
+# Baja DAQ CAN spec v0.3
 
 The single source of truth for the Bobcat Baja DAQ CAN bus: what every node sends, on which ID, in what format, and how a node board is built. If your board talks on the bus, it follows this repo.
 
 > **v0 frozen Oct 19, 2026 (tag `spec-v0`).** Other teams build on these IDs and signals. Adding a message in your own slice: announce it at the Monday meeting. Changing or removing anything existing: agree at the meeting first, then bump `VERSION` in the DBC.
 >
 > **v0.2 (tag `spec-v0.2`)** follows the car topology approved at the Oct 19 meeting. See [What changed in v0.2](#what-changed-in-v02).
+>
+> **v0.3** retires the diff nodes: the diff boards are scrapped and the car moves to mechanical diff control. See [What changed in v0.3](#what-changed-in-v03).
 
 ## What's here
 
 | Path | What | Kept by |
 |---|---|---|
-| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec (`VERSION "0.2"`). | Toph |
-| `docs/CAN_Node_Spec_v0.2.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
+| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec (`VERSION "0.3"`). | Toph |
+| `docs/CAN_Node_Spec_v0.3.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
 | `docs/can_id_plan.md` | ID blocks, per-node slices, node IDs, how to add a node | Toph |
 | `docs/altium-standard.md` | Club Altium standard: board defaults, title block, OutJob, parts library, schematic and PCB rules | Toph |
 | `docs/topology.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
@@ -20,7 +22,17 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 | `tools/check_dbc.py` | DBC checker. Run before every DBC commit; must print `PASS`. | Toph |
 | `tools/draw_topology.py` | Regenerates `topology.png` (needs matplotlib) | Toph |
 
-Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx.
+Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx; `git checkout spec-v0.2` for the v0.2 docx.
+
+## What changed in v0.3
+
+**Retired** (IDs not reused)
+- Front diff: node `0x03`, `DiffF_Fault` `0x020`, `DiffF_Status` `0x210`, heartbeat `0x703`.
+- Rear diff: node `0x08`, `DiffR_Fault` `0x021`, `DiffR_Status` `0x211`, heartbeat `0x708`.
+
+The diff boards are scrapped; the car moves to mechanical diff control. Corners stay on `0x320–0x323`; nothing moves onto `0x210–0x213`.
+
+**Unchanged:** every other ID and signal. Bus load falls from 18.9% to 17.7%.
 
 ## What changed in v0.2
 
@@ -72,7 +84,7 @@ On Windows, if `python` opens the Microsoft Store, turn off the `python.exe` ali
 | Termination | 120 Ω on the two trunk-end boards only: hub and rear-steer (R11 fitted). Bus measures 60 Ω. No terminator on any other node or in the harness. |
 | Connector | One Deutsch DT13-4P per node (12 V, GND, CAN-H, CAN-L), mates with DT06-4S drop plugs |
 | Timing | Hub sends `SYNC` on `0x080` every 50 ms; nodes timestamp data relative to it |
-| Bus load | ~1,470 frames/s, 18.9% of 1 Mbit/s worst case. Limit is 50%. |
+| Bus load | ~1,370 frames/s, 17.7% of 1 Mbit/s worst case. Limit is 50%. |
 
 Keep CAN-H/CAN-L twisted and away from the ignition lead and rear-steer motor wires.
 
@@ -106,10 +118,10 @@ Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node
 
 | IDs | Block | Slices |
 |---|---|---|
-| `0x000–0x07F` | Faults | rear-steer `0x010`, diffs `0x020` / `0x021` |
+| `0x000–0x07F` | Faults | rear-steer `0x010`, `0x020–0x02F` retired |
 | `0x080–0x0FF` | Timing | SYNC `0x080`, GPS time `0x090` |
 | `0x100–0x1FF` | Steering | rear-steer `0x100–0x10F`, cockpit `0x120–0x12F` |
-| `0x200–0x2FF` | Powertrain | powertrain `0x200–0x20F`, diffs `0x210` / `0x211` |
+| `0x200–0x2FF` | Powertrain | powertrain `0x200–0x20F`, `0x210–0x21F` retired |
 | `0x300–0x3FF` | Suspension and wheels | `0x300–0x31F` retired, corners `0x320–0x323` |
 | `0x400–0x4FF` | Vehicle dynamics | hub IMU (internal), GPS `0x410–0x41F` |
 | `0x500–0x5FF` | Electrical | `0x500–0x50F` retired, hub battery (internal) |
@@ -124,12 +136,12 @@ Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node
 |---|---|---|---|---|
 | `0x01` | Hub (trunk end, terminated) | `HUB` | DAQ | assigned |
 | `0x02` | Rear-steer (trunk end, terminated) | `REARSTEER` | Toph | assigned |
-| `0x03` | Front diff | `DIFF_F` | Diff team | assigned |
+| `0x03` | ~~Front diff~~ | — | — | retired, do not reuse |
 | `0x04` | ~~Fuel gauge~~ | — | — | retired, do not reuse |
 | `0x05` | ~~SensorBoardV2~~ | — | — | retired, do not reuse |
 | `0x06` | Powertrain (speeds, temps) | `POWERTRAIN` | Unassigned | assigned |
 | `0x07` | GPS | `GPS` | DAQ, if built | reserved |
-| `0x08` | Rear diff | `DIFF_R` | Diff team | assigned |
+| `0x08` | ~~Rear diff~~ | — | — | retired, do not reuse |
 | `0x09` | Front-left corner | `CORNER_FL` | Shock team | assigned |
 | `0x0A` | Front-right corner | `CORNER_FR` | Shock team | assigned |
 | `0x0B` | Rear-left corner | `CORNER_RL` | Shock team | assigned |
