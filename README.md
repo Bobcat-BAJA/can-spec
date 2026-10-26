@@ -21,7 +21,7 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 | `registry/can_id_registry.csv` | Who owns which node ID and ID slices | Wrigley |
 | `tools/check_dbc.py` | DBC checker. Run before every DBC commit; must print `PASS`. | Toph |
 | `tools/draw_topology.py` | Regenerates `topology_v0.3.png` (needs matplotlib) | Toph |
-| `firmware/CAN_Node_Template/` | Arduino sketch to start a sensor node from: TWAI setup, byte packing helpers, a message table with send periods, bus-off recovery | Toph |
+| `firmware/CAN_Node_Template/` | Arduino sketch to start a sensor node from: spec pins, frame header, SYNC timing, heartbeat, byte packing helpers, message table, bus-off recovery | Toph |
 
 Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx; `git checkout spec-v0.2` for the v0.2 docx.
 
@@ -103,16 +103,12 @@ Keep CAN-H/CAN-L twisted and away from the ignition lead and rear-steer motor wi
 
 `firmware/CAN_Node_Template/CAN_Node_Template.ino` is the starting point for a sensor node on a XIAO ESP32-C3. Copy the whole folder for your node, then:
 
-1. Write a fill function per message that packs your values with `addOneByte` / `addTwoBytes` / `addThreeBytes` / `addFourBytes` (little-endian, integers only) and returns the byte count.
-2. Add one line per message to the `messages[]` table: `{ ID, period in ms, fill function, 0 }`, using only IDs from your node's slice in the registry.
-3. Delete the example messages.
+1. Set `NODE_ID` to your node ID from the registry. The sketch will not compile until you do.
+2. Write a fill function per message that packs your values with `addOneByte` / `addTwoBytes` / `addThreeBytes` / `addFourBytes` (little-endian, integers only) and returns the byte count, 5 max.
+3. Add one line per message to the `messages[]` table: `{ ID, period in ms, fill function }`, using only IDs from your node's slice.
+4. Delete the example message (it sits on spare ID `0x600`).
 
-Before the node goes on the car, check it against this spec. The template as committed does not yet do all of it:
-
-- **CAN pins:** the template uses GPIO5 / GPIO4. The spec is TX = D7 (GPIO20), RX = D10 (GPIO10).
-- **Frame header:** data frames need the 3-byte header (sequence counter, time since SYNC), leaving 5 data bytes. The template packs data from byte 0.
-- **Heartbeat:** must be on `0x700` + your node ID with the full heartbeat layout in Frame format below. The example sends uptime only on `0x700`.
-- **Example IDs:** `0x100` is rear-steer's slice. Replace both examples before flashing.
+The template handles the rest of the spec for you: CAN on D7 / D10 at 1 Mbit/s, the 3-byte frame header (sequence counter, time since SYNC), listening for SYNC on `0x080`, the 1 Hz heartbeat on `0x700` + node ID, and bus-off recovery. Set `nodeState` and `errorFlags` from your code to report warnings and faults in the heartbeat. Arduino "USB CDC On Boot" must be **Enabled**.
 
 ## Frame format
 
