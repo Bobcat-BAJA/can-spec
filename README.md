@@ -111,7 +111,7 @@ Before the node goes on the car, check it against this spec. The template as com
 
 - **CAN pins:** the template uses GPIO5 / GPIO4. The spec is TX = D7 (GPIO20), RX = D10 (GPIO10).
 - **Frame header:** data frames need the 3-byte header (sequence counter, time since SYNC), leaving 5 data bytes. The template packs data from byte 0.
-- **Heartbeat:** must be on `0x700` + your node ID with the full heartbeat layout above. The example sends uptime only on `0x700`.
+- **Heartbeat:** must be on `0x700` + your node ID with the full heartbeat layout in Frame format below. The example sends uptime only on `0x700`.
 - **Example IDs:** `0x100` is rear-steer's slice. Replace both examples before flashing.
 
 ## Frame format
