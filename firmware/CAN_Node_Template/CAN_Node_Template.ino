@@ -138,12 +138,12 @@ Message messages[] = {
 
 // Everything below this point should never need touched unless something goes terribly wrong
 
-// Heartbeat on 0x700 + NODE_ID, no header: node ID, state, error flags, firmware major/minor, uptime (s)
+// Heartbeat on 0x700 + NODE_ID, no header, 7 bytes: state, error flags, firmware major/minor, uptime (s)
+// No node ID byte, the CAN ID already says which node this is (spec v0.4)
 void sendHeartbeat() {
   twai_message_t tx = {};
   tx.identifier = 0x700 + NODE_ID;
   uint8_t pos = 0;
-  pos = addOneByte (tx.data, pos, NODE_ID);
   pos = addOneByte (tx.data, pos, nodeState);
   pos = addTwoBytes(tx.data, pos, errorFlags);
   pos = addOneByte (tx.data, pos, FW_MAJOR);
