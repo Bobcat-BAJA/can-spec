@@ -1,4 +1,4 @@
-# Baja DAQ CAN spec v0.3
+# Baja DAQ CAN spec v0.4
 
 The single source of truth for the Bobcat Baja DAQ CAN bus: what every node sends, on which ID, in what format, and how a node board is built. If your board talks on the bus, it follows this repo.
 
@@ -6,14 +6,16 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 >
 > **v0.2 (tag `spec-v0.2`)** follows the car topology approved at the Oct 19 meeting. See [What changed in v0.2](#what-changed-in-v02).
 >
-> **v0.3** retires the diff nodes: the diff boards are scrapped and the car moves to mechanical diff control. See [What changed in v0.3](#what-changed-in-v03).
+> **v0.3 (tag `spec-v0.3`)** retires the diff nodes: the diff boards are scrapped and the car moves to mechanical diff control. See [What changed in v0.3](#what-changed-in-v03).
+>
+> **v0.4** drops the node ID byte from the heartbeat; the heartbeat's CAN ID already carries it. See [What changed in v0.4](#what-changed-in-v04).
 
 ## What's here
 
 | Path | What | Kept by |
 |---|---|---|
-| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec (`VERSION "0.3"`). | Toph |
-| `docs/CAN_Node_Spec_v0.3.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
+| `dbc/baja_daq.dbc` | Every message and signal: bytes, type, factor, offset, unit, cycle time. The machine-readable spec (`VERSION "0.4"`). | Toph |
+| `docs/CAN_Node_Spec_v0.4.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
 | `docs/can_id_plan.md` | ID blocks, per-node slices, node IDs, how to add a node | Toph |
 | `docs/altium-standard.md` | Club Altium standard: board defaults, title block, OutJob, parts library, schematic and PCB rules | Toph |
 | `docs/topology_v0.3.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
@@ -23,7 +25,23 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 | `tools/draw_topology.py` | Regenerates `topology_v0.3.png` (needs matplotlib) | Toph |
 | `firmware/CAN_Node_Template/` | Arduino sketch to start a sensor node from: spec pins, frame header, SYNC timing, heartbeat, byte packing helpers, message table, bus-off recovery | Toph |
 
-Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx; `git checkout spec-v0.2` for the v0.2 docx.
+Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx; `git checkout spec-v0.2` for the v0.2 docx; `git checkout spec-v0.3` for the v0.3 docx.
+
+## What changed in v0.4
+
+**Heartbeat:** byte 0 (`NodeId`) removed from every `HB_*` message. The heartbeat's CAN ID is already `0x700` + node ID, so the byte only repeated it. Every field moves down one byte and the heartbeat is now 7 bytes:
+
+| Byte | v0.3 | v0.4 |
+|---|---|---|
+| 0 | Node ID | State |
+| 1 | State | Error flags (u16) |
+| 2–3 | Error flags (u16) | Firmware major, minor |
+| 4–5 | Firmware major, minor | Uptime (u16) |
+| 6–7 | Uptime (u16) | — |
+
+Hub and node firmware must update together: a v0.3 node read with the v0.4 DBC decodes its node ID as the state. The node template in `firmware/` already sends the v0.4 layout.
+
+**Unchanged:** every ID, node ID and data message. Bus load stays at 17.7%.
 
 ## What changed in v0.3
 
@@ -120,7 +138,7 @@ The template handles the rest of the spec for you: CAN on D7 / D10 at 1 Mbit/s, 
 | 1–2 | Time since SYNC | u16 | µs since the node last saw SYNC. `0xFFFF` = no SYNC yet. |
 | 3–7 | Data | — | Per message, see the DBC |
 
-**Heartbeat** on `0x700 + node ID`, 1 Hz, every node, no header: node ID, state (0 booting, 1 OK, 2 warning, 3 fault), error flags (u16), firmware major/minor, uptime (s).
+**Heartbeat** on `0x700 + node ID`, 1 Hz, every node, no header, 7 bytes: state (u8: 0 booting, 1 OK, 2 warning, 3 fault), error flags (u16), firmware major/minor (u8, u8), uptime (u16, s). The node ID is not in the data; it's in the CAN ID.
 
 **Data rules:** integers only, little-endian, no floats. Real value = raw × factor + offset. Signed types for anything that can go negative. "Not available" is all ones (`0xFF`, `0xFFFF`, `0x7FFF` signed), never 0. Periodic messages on a steady schedule; faults on change, then 10 Hz while active.
 

@@ -1,4 +1,4 @@
-VERSION "0.3"
+VERSION "0.4"
 
 NS_ :
 	CM_
@@ -120,79 +120,70 @@ BO_ 1042 GPS_SpeedHeading: 7 GPS
 BO_ 1296 HUB_Battery: 2 HUB
  SG_ BatteryVoltage : 0|16@1+ (0.01,0) [0|655.34] "V" Vector__XXX
 
-BO_ 1793 HB_HUB: 8 HUB
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ State : 8|8@1+ (1,0) [0|254] "" Vector__XXX
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" Vector__XXX
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" Vector__XXX
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" Vector__XXX
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" Vector__XXX
+BO_ 1793 HB_HUB: 7 HUB
+ SG_ State : 0|8@1+ (1,0) [0|254] "" Vector__XXX
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" Vector__XXX
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" Vector__XXX
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" Vector__XXX
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" Vector__XXX
 
-BO_ 1794 HB_REARSTEER: 8 REARSTEER
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1794 HB_REARSTEER: 7 REARSTEER
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1798 HB_POWERTRAIN: 8 POWERTRAIN
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1798 HB_POWERTRAIN: 7 POWERTRAIN
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1799 HB_GPS: 8 GPS
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1799 HB_GPS: 7 GPS
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1801 HB_CORNER_FL: 8 CORNER_FL
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1801 HB_CORNER_FL: 7 CORNER_FL
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1802 HB_CORNER_FR: 8 CORNER_FR
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1802 HB_CORNER_FR: 7 CORNER_FR
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1803 HB_CORNER_RL: 8 CORNER_RL
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1803 HB_CORNER_RL: 7 CORNER_RL
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1804 HB_CORNER_RR: 8 CORNER_RR
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1804 HB_CORNER_RR: 7 CORNER_RR
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-BO_ 1805 HB_COCKPIT: 8 COCKPIT
- SG_ NodeId : 0|8@1+ (1,0) [0|255] "" HUB
- SG_ State : 8|8@1+ (1,0) [0|254] "" HUB
- SG_ ErrorFlags : 16|16@1+ (1,0) [0|65534] "" HUB
- SG_ FwMajor : 32|8@1+ (1,0) [0|254] "" HUB
- SG_ FwMinor : 40|8@1+ (1,0) [0|254] "" HUB
- SG_ Uptime : 48|16@1+ (1,0) [0|65534] "s" HUB
+BO_ 1805 HB_COCKPIT: 7 COCKPIT
+ SG_ State : 0|8@1+ (1,0) [0|254] "" HUB
+ SG_ ErrorFlags : 8|16@1+ (1,0) [0|65534] "" HUB
+ SG_ FwMajor : 24|8@1+ (1,0) [0|254] "" HUB
+ SG_ FwMinor : 32|8@1+ (1,0) [0|254] "" HUB
+ SG_ Uptime : 40|16@1+ (1,0) [0|65534] "s" HUB
 
-CM_ "Baja DAQ CAN spec v0.3 (corner-node topology; diff nodes retired Oct 20 2026; v0 frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
+CM_ "Baja DAQ CAN spec v0.4 (corner-node topology; diff nodes retired Oct 20 2026; heartbeat NodeId byte dropped Oct 26 2026; v0 frozen Oct 19 2026). CAN 2.0A, 1 Mbit/s, little-endian. All-ones raw value (0xFF, 0xFFFF, 0x7FFF signed) = not available. Owner: Toph Jones.";
 CM_ SG_ 16 Seq "Sequence counter, +1 per message on this ID, wraps 255->0";
 CM_ SG_ 16 SinceSync "us since last SYNC (0x080); 0xFFFF = no SYNC yet";
 CM_ BO_ 16 "Sent on change, then 10 Hz while active";

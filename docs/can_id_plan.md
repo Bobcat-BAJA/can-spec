@@ -1,12 +1,12 @@
-# CAN ID Plan v0.3
+# CAN ID Plan v0.4
 
-v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approved there; v0.3 (Oct 20, 2026) retires the diff nodes (diff boards scrapped, car moves to mechanical diff control). Owner: Toph Jones. Registry kept by Wrigley Beardmore (`registry/can_id_registry.csv`).
+v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approved there; v0.3 (Oct 20, 2026) retires the diff nodes (diff boards scrapped, car moves to mechanical diff control); v0.4 (Oct 26, 2026) drops the node ID byte from the heartbeat. Owner: Toph Jones. Registry kept by Wrigley Beardmore (`registry/can_id_registry.csv`).
 
 **Rules**
 - Lower ID wins arbitration, so the most critical messages get the lowest IDs: faults first, then SYNC.
 - Blocks are by function. Inside a block, each node gets a 16-ID slice (`0xN0–0xNF`).
 - A node transmits only on IDs assigned to it here. Two nodes on one ID corrupt each other.
-- Heartbeat = `0x700 + node ID`, 1 Hz, every node.
+- Heartbeat = `0x700 + node ID`, 1 Hz, every node. The node ID lives only in the heartbeat's CAN ID, not in its data.
 - `0x400`, `0x401`, `0x510` are hub-internal: logged under these IDs so logs decode with the DBC, but never put on the wire. Nobody else may use them.
 - Retired node IDs and ID slices are never reused. Corners stay on 0x320–0x323; nothing moves onto 0x210–0x213.
 
