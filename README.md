@@ -18,11 +18,11 @@ The single source of truth for the Bobcat Baja DAQ CAN bus: what every node send
 | `docs/CAN_Node_Spec_v0.4.docx` | The human-readable spec: bus rules, car topology, node hardware, frame format, message table. | Toph |
 | `docs/can_id_plan.md` | ID blocks, per-node slices, node IDs, how to add a node | Toph |
 | `docs/altium-standard.md` | Club Altium standard: board defaults, title block, OutJob, parts library, schematic and PCB rules | Toph |
-| `docs/topology_v0.3.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
+| `docs/topology_v0.4.png` | Car topology diagram: trunk, terminated ends, node drops | Toph |
 | `docs/Standards_v0.3.pdf` | v0.3 standards: wire colors, DT 4 and 12 pin pinouts, bit rate, frame header and heartbeat, termination, power, MCU | Toph |
 | `registry/can_id_registry.csv` | Who owns which node ID and ID slices | Wrigley |
 | `tools/check_dbc.py` | DBC checker. Run before every DBC commit; must print `PASS`. | Toph |
-| `tools/draw_topology.py` | Regenerates `topology_v0.3.png` (needs matplotlib) | Toph |
+| `tools/draw_topology.py` | Regenerates `topology_v0.4.png` (needs matplotlib) | Toph |
 | `firmware/CAN_Node_Template/` | Arduino sketch to start a sensor node from: spec pins, frame header, SYNC timing, heartbeat, byte packing helpers, message table, bus-off recovery | Toph |
 
 Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1 docx; `git checkout spec-v0.2` for the v0.2 docx; `git checkout spec-v0.3` for the v0.3 docx.
@@ -93,7 +93,7 @@ On Windows, if `python` opens the Microsoft Store, turn off the `python.exe` ali
 
 ## The bus at a glance
 
-![Car CAN topology](docs/topology_v0.3.png)
+![Car CAN topology](docs/topology_v0.4.png)
 
 | | |
 |---|---|
