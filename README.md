@@ -164,21 +164,21 @@ Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node
 
 | Node ID | Node | DBC name | Built by | Status |
 |---|---|---|---|---|
-| `0x01` | Hub (trunk end, terminated) | `HUB` | DAQ | assigned |
-| `0x02` | Rear-steer (trunk end, terminated) | `REARSTEER` | Toph | assigned |
-| `0x03` | ~~Front diff~~ | — | — | retired, do not reuse |
-| `0x04` | ~~Fuel gauge~~ | — | — | retired, do not reuse |
-| `0x05` | ~~SensorBoardV2~~ | — | — | retired, do not reuse |
-| `0x06` | Powertrain (speeds, temps) | `POWERTRAIN` | Unassigned | assigned |
-| `0x07` | GPS | `GPS` | DAQ, if built | reserved |
-| `0x08` | ~~Rear diff~~ | — | — | retired, do not reuse |
-| `0x09` | Front-left corner | `CORNER_FL` | Shock team | assigned |
-| `0x0A` | Front-right corner | `CORNER_FR` | Shock team | assigned |
-| `0x0B` | Rear-left corner | `CORNER_RL` | Shock team | assigned |
-| `0x0C` | Rear-right corner | `CORNER_RR` | Shock team | assigned |
-| `0x0D` | Cockpit | `COCKPIT` | Unassigned | assigned |
-| `0x0E–0x0F` | — | — | — | reserved |
-| `0x10–0x7F` | New nodes | — | Claim in the registry | open |
+| `0x701` | Hub (trunk end, terminated) | `HUB` | DAQ | assigned |
+| `0x702` | Rear-steer (trunk end, terminated) | `REARSTEER` | Toph | assigned |
+| `0x703` | ~~Front diff~~ | — | — | retired, do not reuse |
+| `0x704` | ~~Fuel gauge~~ | — | — | retired, do not reuse |
+| `0x705` | ~~SensorBoardV2~~ | — | — | retired, do not reuse |
+| `0x706` | Powertrain (speeds, temps) | `POWERTRAIN` | Unassigned | assigned |
+| `0x707` | GPS | `GPS` | DAQ, if built | reserved |
+| `0x708` | ~~Rear diff~~ | — | — | retired, do not reuse |
+| `0x709` | Front-left corner | `CORNER_FL` | Shock team | assigned |
+| `0x70A` | Front-right corner | `CORNER_FR` | Shock team | assigned |
+| `0x70B` | Rear-left corner | `CORNER_RL` | Shock team | assigned |
+| `0x70C` | Rear-right corner | `CORNER_RR` | Shock team | assigned |
+| `0x70D` | Cockpit | `COCKPIT` | Unassigned | assigned |
+| `0x70E–0x70F` | — | — | — | reserved |
+| `0x710–0x77F` | New nodes | — | Claim in the registry | open |
 
 Full slice and message ownership is in `registry/can_id_registry.csv`.
 
