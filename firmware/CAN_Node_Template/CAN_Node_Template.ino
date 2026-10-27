@@ -3,7 +3,8 @@
 
 // Copy this code for each new node, then make the changes listed below.
 
-// 1: Set NODE_ID (under Node Settings) to your node ID from registry/can_id_registry.csv. It won't compile until you do.
+// 1: Set NODE_ID (under Node Settings) to your node ID from the Nodes table in the can-spec README (0x701-0x77F,
+//    e.g. 0x706 for powertrain). Your node ID is also your heartbeat ID. It won't compile until you do.
 // 2: Make a message function for each message (under Structs / Functions for filling Messages, how to do so listed below)
 // 3: Add lines to messages[] table at bottom of section for each new message (Format: { ID, send period in ms, your function })
 // 4: Remember to remove the example message
@@ -31,19 +32,21 @@
 //    the node. If data is malformed, or input in an unexpected way, there could be issues. Like if
 //    you try to read one byte from a pin, and it is sending 2, it could lead to issues. Please
 //    double check your sensors.
-//  - Heartbeat is sent for you on 0x700 + NODE_ID once a second. Don't add it to the table.
+//  - Heartbeat is sent for you on NODE_ID once a second. Don't add it to the table.
 
 
 // ---- Actual start to the code ----
 #include "driver/twai.h"
 
 // ---- Node Settings ----
-#define NODE_ID     0x00            // SET THIS: your node ID from the registry (heartbeat goes out on 0x700 + NODE_ID)
+#define NODE_ID     0x000           // SET THIS: your node ID from the README Nodes table, 0x701-0x77F (heartbeat goes out on this ID)
 #define FW_MAJOR    0               // firmware version, sent in the heartbeat
 #define FW_MINOR    1
 
 #if NODE_ID == 0
-#error "Set NODE_ID to your node ID from registry/can_id_registry.csv"
+#error "Set NODE_ID to your node ID from the Nodes table in the can-spec README (0x701-0x77F)"
+#elif NODE_ID < 0x701 || NODE_ID > 0x77F
+#error "NODE_ID must be 0x701-0x77F. Node IDs are the heartbeat ID now: old 0x06 is now 0x706"
 #endif
 
 // ---- Node IO Settings ----
@@ -138,11 +141,11 @@ Message messages[] = {
 
 // Everything below this point should never need touched unless something goes terribly wrong
 
-// Heartbeat on 0x700 + NODE_ID, no header, 7 bytes: state, error flags, firmware major/minor, uptime (s)
-// No node ID byte, the CAN ID already says which node this is (spec v0.4)
+// Heartbeat on NODE_ID (your node ID is your heartbeat ID), no header, 7 bytes: state, error flags, firmware major/minor, uptime (s)
+// No node ID byte in the data, the CAN ID already says which node this is (spec v0.4)
 void sendHeartbeat() {
   twai_message_t tx = {};
-  tx.identifier = 0x700 + NODE_ID;
+  tx.identifier = NODE_ID;
   uint8_t pos = 0;
   pos = addOneByte (tx.data, pos, nodeState);
   pos = addTwoBytes(tx.data, pos, errorFlags);

@@ -121,12 +121,12 @@ Keep CAN-H/CAN-L twisted and away from the ignition lead and rear-steer motor wi
 
 `firmware/CAN_Node_Template/CAN_Node_Template.ino` is the starting point for a sensor node on a XIAO ESP32-C3. Copy the whole folder for your node, then:
 
-1. Set `NODE_ID` to your node ID from the registry. The sketch will not compile until you do.
+1. Set `NODE_ID` to your node ID from the [Nodes](#nodes) table (`0x701`–`0x77F`, e.g. `0x706` for powertrain). It is also your heartbeat ID. The sketch will not compile until you do.
 2. Write a fill function per message that packs your values with `addOneByte` / `addTwoBytes` / `addThreeBytes` / `addFourBytes` (little-endian, integers only) and returns the byte count, 5 max.
 3. Add one line per message to the `messages[]` table: `{ ID, period in ms, fill function }`, using only IDs from your node's slice.
 4. Delete the example message (it sits on spare ID `0x600`).
 
-The template handles the rest of the spec for you: CAN on D7 / D10 at 1 Mbit/s, the 3-byte frame header (sequence counter, time since SYNC), listening for SYNC on `0x080`, the 1 Hz heartbeat on `0x700` + node ID, and bus-off recovery. Set `nodeState` and `errorFlags` from your code to report warnings and faults in the heartbeat. Arduino "USB CDC On Boot" must be **Enabled**.
+The template handles the rest of the spec for you: CAN on D7 / D10 at 1 Mbit/s, the 3-byte frame header (sequence counter, time since SYNC), listening for SYNC on `0x080`, the 1 Hz heartbeat on your node ID, and bus-off recovery. Set `nodeState` and `errorFlags` from your code to report warnings and faults in the heartbeat. Arduino "USB CDC On Boot" must be **Enabled**.
 
 ## Frame format
 
