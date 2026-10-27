@@ -40,5 +40,5 @@ ly=1.4
 ax.plot([0.4,1.1],[ly,ly],color=TRUNK,lw=7,solid_capstyle="butt"); ax.text(1.25,ly,"Trunk: 12 V, GND, CAN-H, CAN-L (CAN pair twisted)",va="center",fontsize=8.5,color=INK)
 ax.plot([0.4,1.1],[ly-0.4,ly-0.4],color=TRUNK,lw=2.2); ax.text(1.25,ly-0.4,"Drop: DT06-4S plug to the node's DT13-4P, under 0.3 m. Dashed = optional",va="center",fontsize=8.5,color=INK)
 ax.text(0.4,ly-0.8,"Only the two end boards terminate (bus reads 60 Ω). Order is logical; the harness team sets the route.",va="center",fontsize=8.5,color=SUB)
-ax.text(0.4,ly-1.15,"IDs are message IDs as seen on the bus. HB = heartbeat, 1 Hz, on 0x700 + node ID.",va="center",fontsize=8.5,color=SUB)
+ax.text(0.4,ly-1.15,"IDs are message IDs as seen on the bus. HB = heartbeat, 1 Hz. The HB ID is also the node ID.",va="center",fontsize=8.5,color=SUB)
 plt.savefig("topology_v0.4.png",dpi=200,bbox_inches="tight",facecolor="white")

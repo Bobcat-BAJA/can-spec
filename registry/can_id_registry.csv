@@ -1,14 +1,14 @@
 node_id,node,owner_team,heartbeat_id,id_slices,messages,frames_per_s,status
-0x01,Hub,DAQ,0x701,0x080; 0x400-0x40F (internal); 0x510-0x51F (internal),SYNC 0x080; IMU 0x400/0x401 (internal); Battery 0x510 (internal),21,assigned
-0x02,Rear-steer,Toph,0x702,0x010-0x01F; 0x100-0x10F,RS_Fault 0x010; RS_SteerAngles 0x100; RS_SteerMotor 0x101,201,assigned
-0x03,Front diff,—,0x703,—,—,0,retired v0.3 (diff boards scrapped; mechanical diff control); do not reuse
-0x04,Fuel gauge,—,0x704,—,—,0,retired v0.2 (sensor in the tank not feasible); do not reuse
-0x05,SensorBoardV2,—,0x705,—,—,0,retired v0.2 (replaced by corner nodes); do not reuse
-0x06,Powertrain,Unassigned,0x706,0x200-0x20F,PT_EngineCVT 0x200; PT_Temps 0x201,111,assigned
-0x07,GPS,DAQ (if built),0x707,0x090-0x09F; 0x410-0x41F,GPS_Time 0x090; GPS_Lat 0x410; GPS_Lon 0x411; GPS_SpeedHeading 0x412,32,reserved
-0x08,Rear diff,—,0x708,—,—,0,retired v0.3 (diff boards scrapped; mechanical diff control); do not reuse
-0x09,Front-left corner,Shock team,0x709,0x320-0x32F (shared),CornerFL 0x320,201,assigned
-0x0A,Front-right corner,Shock team,0x70A,0x320-0x32F (shared),CornerFR 0x321,201,assigned
-0x0B,Rear-left corner,Shock team,0x70B,0x320-0x32F (shared),CornerRL 0x322,201,assigned
-0x0C,Rear-right corner,Shock team,0x70C,0x320-0x32F (shared),CornerRR 0x323,201,assigned
-0x0D,Cockpit,Unassigned,0x70D,0x120-0x12F,CP_Driver 0x120; CP_Brakes 0x121,201,assigned
+0x701,Hub,DAQ,0x701,0x080; 0x400-0x40F (internal); 0x510-0x51F (internal),SYNC 0x080; IMU 0x400/0x401 (internal); Battery 0x510 (internal),21,assigned
+0x702,Rear-steer,Toph,0x702,0x010-0x01F; 0x100-0x10F,RS_Fault 0x010; RS_SteerAngles 0x100; RS_SteerMotor 0x101,201,assigned
+0x703,Front diff,—,0x703,—,—,0,retired v0.3 (diff boards scrapped; mechanical diff control); do not reuse
+0x704,Fuel gauge,—,0x704,—,—,0,retired v0.2 (sensor in the tank not feasible); do not reuse
+0x705,SensorBoardV2,—,0x705,—,—,0,retired v0.2 (replaced by corner nodes); do not reuse
+0x706,Powertrain,Unassigned,0x706,0x200-0x20F,PT_EngineCVT 0x200; PT_Temps 0x201,111,assigned
+0x707,GPS,DAQ (if built),0x707,0x090-0x09F; 0x410-0x41F,GPS_Time 0x090; GPS_Lat 0x410; GPS_Lon 0x411; GPS_SpeedHeading 0x412,32,reserved
+0x708,Rear diff,—,0x708,—,—,0,retired v0.3 (diff boards scrapped; mechanical diff control); do not reuse
+0x709,Front-left corner,Shock team,0x709,0x320-0x32F (shared),CornerFL 0x320,201,assigned
+0x70A,Front-right corner,Shock team,0x70A,0x320-0x32F (shared),CornerFR 0x321,201,assigned
+0x70B,Rear-left corner,Shock team,0x70B,0x320-0x32F (shared),CornerRL 0x322,201,assigned
+0x70C,Rear-right corner,Shock team,0x70C,0x320-0x32F (shared),CornerRR 0x323,201,assigned
+0x70D,Cockpit,Unassigned,0x70D,0x120-0x12F,CP_Driver 0x120; CP_Brakes 0x121,201,assigned

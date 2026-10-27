@@ -29,7 +29,7 @@ Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1
 
 ## What changed in v0.4
 
-**Heartbeat:** byte 0 (`NodeId`) removed from every `HB_*` message. The heartbeat's CAN ID is already `0x700` + node ID, so the byte only repeated it. Every field moves down one byte and the heartbeat is now 7 bytes:
+**Heartbeat:** byte 0 (`NodeId`) removed from every `HB_*` message. The heartbeat's CAN ID already identifies the node, so the byte only repeated it. Every field moves down one byte and the heartbeat is now 7 bytes:
 
 | Byte | v0.3 | v0.4 |
 |---|---|---|
@@ -41,7 +41,9 @@ Older versions: `git checkout spec-v0` for the original frozen spec and the v0.1
 
 Hub and node firmware must update together: a v0.3 node read with the v0.4 DBC decodes its node ID as the state. The node template in `firmware/` already sends the v0.4 layout.
 
-**Unchanged:** every ID, node ID and data message. Bus load stays at 17.7%.
+**Node IDs are now written as the heartbeat ID:** powertrain is node `0x706`, not `0x06`. Same boards, same heartbeat IDs; only the way the number is written changed. The v0.3 and v0.2 notes below use the old style (old `0xNN` = new `0x7NN`).
+
+**Unchanged:** every message ID and data message. Bus load stays at 17.7%.
 
 ## What changed in v0.3
 
@@ -138,7 +140,7 @@ The template handles the rest of the spec for you: CAN on D7 / D10 at 1 Mbit/s, 
 | 1–2 | Time since SYNC | u16 | µs since the node last saw SYNC. `0xFFFF` = no SYNC yet. |
 | 3–7 | Data | — | Per message, see the DBC |
 
-**Heartbeat** on `0x700 + node ID`, 1 Hz, every node, no header, 7 bytes: state (u8: 0 booting, 1 OK, 2 warning, 3 fault), error flags (u16), firmware major/minor (u8, u8), uptime (u16, s). The node ID is not in the data; it's in the CAN ID.
+**Heartbeat** on the node ID (`0x701`–`0x77F`), 1 Hz, every node, no header, 7 bytes: state (u8: 0 booting, 1 OK, 2 warning, 3 fault), error flags (u16), firmware major/minor (u8, u8), uptime (u16, s). The node ID is not in the data; it's in the CAN ID.
 
 **Data rules:** integers only, little-endian, no floats. Real value = raw × factor + offset. Signed types for anything that can go negative. "Not available" is all ones (`0xFF`, `0xFFFF`, `0x7FFF` signed), never 0. Periodic messages on a steady schedule; faults on change, then 10 Hz while active.
 
@@ -156,7 +158,7 @@ Lower ID wins arbitration, so faults sit lowest and slow data highest. Each node
 | `0x400–0x4FF` | Vehicle dynamics | hub IMU (internal), GPS `0x410–0x41F` |
 | `0x500–0x5FF` | Electrical | `0x500–0x50F` retired, hub battery (internal) |
 | `0x600–0x6FF` | Spare | — |
-| `0x700–0x77F` | Heartbeats | `0x700` + node ID |
+| `0x700–0x77F` | Heartbeats | one per node; the heartbeat ID is the node ID |
 
 `0x400`, `0x401` and `0x510` are hub-internal (marked `HubInternal = 1` in the DBC): logged under these IDs so logs decode, but never put on the wire. Nobody else may use them.
 

@@ -41,7 +41,7 @@ def main(path):
             errors.append(f"{m.name} 0x{m.frame_id:03X}: outside every ID block")
         if m.name.startswith("HB_"):
             if not (0x701 <= m.frame_id <= 0x77F):
-                errors.append(f"{m.name}: heartbeat must be 0x700 + node ID")
+                errors.append(f"{m.name}: heartbeat must be on its node ID, 0x701-0x77F")
         for s in m.signals:
             if s.byte_order != "little_endian":
                 errors.append(f"{m.name}.{s.name}: must be little-endian")

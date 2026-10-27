@@ -6,7 +6,7 @@ v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approv
 - Lower ID wins arbitration, so the most critical messages get the lowest IDs: faults first, then SYNC.
 - Blocks are by function. Inside a block, each node gets a 16-ID slice (`0xN0–0xNF`).
 - A node transmits only on IDs assigned to it here. Two nodes on one ID corrupt each other.
-- Heartbeat = `0x700 + node ID`, 1 Hz, every node. The node ID lives only in the heartbeat's CAN ID, not in its data.
+- Node ID = heartbeat ID (`0x701`–`0x77F`). Every node sends its heartbeat on its node ID at 1 Hz. The node ID is not in the heartbeat's data.
 - `0x400`, `0x401`, `0x510` are hub-internal: logged under these IDs so logs decode with the DBC, but never put on the wire. Nobody else may use them.
 - Retired node IDs and ID slices are never reused. Corners stay on 0x320–0x323; nothing moves onto 0x210–0x213.
 
@@ -22,7 +22,7 @@ v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approv
 | 0x400–0x4FF | Vehicle dynamics | 0x400–0x40F hub IMU (internal) · 0x410–0x41F GPS |
 | 0x500–0x5FF | Electrical | 0x500–0x50F retired (old fuel gauge) · 0x510–0x51F hub battery (internal) |
 | 0x600–0x6FF | Spare | — |
-| 0x700–0x77F | Heartbeats | 0x700 + node ID |
+| 0x700–0x77F | Heartbeats | One per node; heartbeat ID = node ID |
 
 ## Node IDs
 
