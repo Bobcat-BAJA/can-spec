@@ -17,7 +17,7 @@ Template and library live in the Altium workspace (Americas – Ohio University 
 | Solder mask expansion | 0.05 mm | 0.05 mm |
 | Solder mask bridge | 0.2 mm | 0.2 mm (green) |
 | Silkscreen | 0.18 mm stroke, 1.2 mm text (never below 0.16 / 1.0) | 0.153 mm, 1.0 mm |
-| Smallest passive | 0805 (hand assembly) | — |
+| Smallest passive | 1206 (hand assembly) | — |
 
 - Units mm. PCB snap grid 0.25 mm; schematic grid stays at the Altium default.
 - Board outline on **Mechanical 1**. Silkscreen on Top/Bottom Overlay, never a copper layer.
@@ -38,7 +38,7 @@ One click makes a zip ready to upload to JLC:
 
 ## Club library: CAN test node parts
 
-Picked by DigiKey's Most Popular sort within each spec (Oct 18, 2026), in stock and active.
+Picked by DigiKey's Most Popular sort within each spec (Oct 18, 2026), in stock and active. Passives and LED1 moved from 0805 to 1206 on Oct 26, 2026 (same manufacturer series, 1206 size).
 
 | Ref | Part | MPN |
 |---|---|---|
@@ -49,12 +49,12 @@ Picked by DigiKey's Most Popular sort within each spec (Oct 18, 2026), in stock 
 | D2 | 15 V TVS, SMB | Littelfuse SMBJ15A |
 | D3 | CAN ESD, SOT-23 | TI ESD2CAN24DBZRQ1 |
 | D4 | USB backfeed Schottky 40 V 1 A, SOD-123 | Diodes Inc. 1N5819HW-7-F |
-| C1 | 10 µF 25 V X7S 0805 (regulator input) | TDK CGA4J1X7S1E106K125AE |
-| C2 | 100 nF 50 V X7R 0805 | KEMET C0805C104K5RACTU |
+| C1 | 10 µF 25 V X7R 1206 (regulator input) | TDK CGA5L1X7R1E106K160AC |
+| C2 | 100 nF 50 V X7R 1206 | KEMET C1206C104K5RACTU |
 | C3 | 10 µF 16 V tantalum, case A (regulator output) | KEMET T491A106K016AT (not yet DigiKey-checked) |
-| R | 1 kΩ 1% 0805 | Vishay CRCW08051K00FKEA |
-| R | 10 kΩ 1% 0805 | Yageo RC0805FR-0710KL |
-| LED1 | Red 0805 | Lite-On LTST-C171KRKT |
+| R | 1 kΩ 1% 1206 | Vishay CRCW12061K00FKEA |
+| R | 10 kΩ 1% 1206 | Yageo RC1206FR-0710KL |
+| LED1 | Red 1206 | Lite-On LTST-C150KRKT |
 | J1 | Deutsch DT 4-pin PCB header, 90° (one per node, mates with DT06-4S drop plugs) | TE DT13-4P |
 | RV1 | Pot | Club stock, TBD |
 
