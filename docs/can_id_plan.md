@@ -28,21 +28,21 @@ v0 frozen at the Oct 19, 2026 meeting; v0.2 adds the corner-node topology approv
 
 | Node ID | Node | Heartbeat | Built by |
 |---|---|---|---|
-| 0x01 | Hub | 0x701 | DAQ |
-| 0x02 | Rear-steer | 0x702 | Toph |
-| 0x03 | Retired (was front diff). Do not reuse | — | — |
-| 0x04 | Retired (was fuel gauge). Do not reuse | — | — |
-| 0x05 | Retired (was SensorBoardV2). Do not reuse | — | — |
-| 0x06 | Powertrain | 0x706 | Unassigned |
-| 0x07 | GPS | 0x707 | DAQ, if built |
-| 0x08 | Retired (was rear diff). Do not reuse | — | — |
-| 0x09 | Front-left corner | 0x709 | Shock team |
-| 0x0A | Front-right corner | 0x70A | Shock team |
-| 0x0B | Rear-left corner | 0x70B | Shock team |
-| 0x0C | Rear-right corner | 0x70C | Shock team |
-| 0x0D | Cockpit | 0x70D | Unassigned |
-| 0x0E–0x0F | Reserved | | |
-| 0x10–0x7F | New nodes, claimed in the registry | 0x710–0x77F | |
+| 0x701 | Hub | 0x701 | DAQ |
+| 0x702 | Rear-steer | 0x702 | Toph |
+| 0x703 | Retired (was front diff). Do not reuse | — | — |
+| 0x704 | Retired (was fuel gauge). Do not reuse | — | — |
+| 0x705 | Retired (was SensorBoardV2). Do not reuse | — | — |
+| 0x706 | Powertrain | 0x706 | Unassigned |
+| 0x707 | GPS | 0x707 | DAQ, if built |
+| 0x708 | Retired (was rear diff). Do not reuse | — | — |
+| 0x709 | Front-left corner | 0x709 | Shock team |
+| 0x70A | Front-right corner | 0x70A | Shock team |
+| 0x70B | Rear-left corner | 0x70B | Shock team |
+| 0x70C | Rear-right corner | 0x70C | Shock team |
+| 0x70D | Cockpit | 0x70D | Unassigned |
+| 0x70E–0x70F | Reserved | | |
+| 0x710–0x77F | New nodes, claimed in the registry | 0x710–0x77F | |
 
 ## Adding a node or message
 1. Claim a node ID and slice in the registry (Wrigley).
